@@ -17,10 +17,11 @@ const mongoose = require('mongoose');
 
 console.log("ENV MONGO_URI:", process.env.MONGO_URI);
 
-mongoose.connect(process.env.MONGO_URI)
+const mongoose = require('mongoose');
+
+mongoose.connect("mongodb+srv://raitapas138_db_user:AX7p3M1dP764u3es@cluster0.xxxxx.mongodb.net/studentDB?retryWrites=true&w=majority")
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log("Mongo ERROR:", err));
-
 app.get('/', (req, res) => {
   res.json({ 
     message: '🎓 Student Information System API is running!',
