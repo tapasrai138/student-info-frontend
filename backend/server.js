@@ -12,18 +12,24 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-require('dotenv').config();
-const mongoose = require('mongoose');
+// Connect to MongoDB using environment variable
+const MONGO_URI = process.env.MONGO_URI;
 
-console.log("ENV MONGO_URI:", process.env.MONGO_URI);
+if (!MONGO_URI) {
+  console.error('❌ MONGO_URI is not defined in environment variables!');
+  process.exit(1);
+}
 
-const mongoose = require('mongoose');
+mongoose.connect(MONGO_URI)
+  .then(() => console.log('✅ MongoDB Connected successfully!'))
+  .catch(err => {
+    console.error('❌ MongoDB connection failed!');
+    console.error(err.message);
+    process.exit(1);
+  });
 
-mongoose.connect("mongodb+srv://raitapas138_db_user:AX7p3M1dP764u3es@cluster0.xxxxx.mongodb.net/studentDB?retryWrites=true&w=majority")
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log("Mongo ERROR:", err));
 app.get('/', (req, res) => {
-  res.json({ 
+  res.json({
     message: '🎓 Student Information System API is running!',
     status: 'Server is healthy',
     timestamp: new Date().toLocaleString(),
@@ -52,4 +58,3 @@ app.listen(PORT, () => {
   console.log('   - DELETE /api/students/:id  (Delete student)');
   console.log('💡 Press Ctrl+C to stop the server');
 });
-
